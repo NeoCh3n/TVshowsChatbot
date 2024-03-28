@@ -41,4 +41,4 @@ You can use the following command to pull and run our Docker image:
 docker pull ghcr.io/tokiharashori/neoch3n/tvshowschatbot:tvshowschatbotv2
 docker run -it ghcr.io/tokiharashori/neoch3n/tvshowschatbot:tvshowschatbotv2
 
-Last updated: 2024-03-22
+Last updated: 2024-03-29
