@@ -33,5 +33,12 @@ Additional marks will be given to groups who are able to demonstrate:
  • or any practical consideration
 
 Meanwhile user interface/project completeness/coding quality/documentation will carry only a very small fraction of marks. Most of the marks will be given based on the innovation of your app and the ability of demonstration of cloud technology competence.
+## Use our Docker image
+
+You can use the following command to pull and run our Docker image:
+
+```bash
+docker pull ghcr.io/tokiharashori/neoch3n/tvshowschatbot:tvshowschatbotv2
+docker run -it ghcr.io/tokiharashori/neoch3n/tvshowschatbot:tvshowschatbotv2
 
 Last updated: 2024-03-22
