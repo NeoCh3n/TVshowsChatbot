@@ -25,9 +25,9 @@ def equiped_chatgpt(update: Update, context: CallbackContext) -> None:
 hkbu_chatgpt = HKBU_ChatGPT()
 
 # Redis Configuration, PLEASE CHANGE IT TO YOUR OWN REDIS CONFIGURATION @XU
-REDIS_HOST = 'redis-17517.c302.asia-northeast1-1.gce.cloud.redislabs.com'
-REDIS_PORT = 17517
-REDIS_PASSWORD = 'oUcPzSDkYSdAuhDxw4YJS9gLJH7sFkKx'
+REDIS_HOST = 'TvshowsChatbot.redis.cache.windows.net'
+REDIS_PORT = 6380
+REDIS_PASSWORD = 'UYe9jTpqIpZI1CGUNZUFcSQOE4Vs8Gh8HAzCaEKqR4o='
 
 r=redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD)
 
