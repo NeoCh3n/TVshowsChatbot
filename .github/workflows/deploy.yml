@@ -27,7 +27,7 @@ jobs:
           aws-region: ap-northeast-1
 
       - name: Sync files to Lightsail bucket
-        run: aws s3 sync . s3://your-lightsail-bucket/
+        run: aws s3 sync . s3://bucket-f8ky00
 
 
 
