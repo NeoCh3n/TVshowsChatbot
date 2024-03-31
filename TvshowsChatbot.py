@@ -113,7 +113,7 @@ def get_history(user_id):
 def main():
     token = aws_params.TG_ACCESS_TOKEN
 
-    updater = Updater(token)
+    updater = Updater(token, use_context=True)
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler("start", start))
@@ -121,31 +121,6 @@ def main():
     dispatcher.add_handler(CallbackQueryHandler(button))
     dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), equiped_chatgpt))
 
-    updater.start_polling()
-    updater.idle()
-
-if __name__ == "__main__":
-    main()
-
-def equiped_chatgpt(update, context):
-    message = update.message.text
-    response = chatgpt.submit(message)
-    context.bot.send_message(chat_id=update.effective_chat.id, text=response)
-
-def main():
-    # Initialize the Updater
-    updater = Updater(token=aws_params.TG_ACCESS_TOKEN, use_context=True)
-
-    # Get the dispatcher
-    dispatcher = updater.dispatcher
-
-    # Add handlers
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
-    dispatcher.add_handler(CallbackQueryHandler(button))
-    dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), equiped_chatgpt))
-
-    # Start the bot
     updater.start_polling()
     updater.idle()
 
