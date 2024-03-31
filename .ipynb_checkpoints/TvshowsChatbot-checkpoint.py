@@ -1,5 +1,6 @@
 from asyncore import dispatcher_with_send
 import os
+import configparser
 import logging
 from httpx import QueryParams
 import redis
@@ -12,15 +13,10 @@ from telegram.ext import MessageHandler
 from telegram.ext import Filters
 from ChatGPT import HKBU_ChatGPT
 from telegram.ext import MessageHandler, Filters, CommandHandler, CallbackQueryHandler
-import aws_params
-
-
 
 def equiped_chatgpt(update: Update, context: CallbackContext) -> None:
     global chatgpt
-    personalizedPrompt = "Discussing movies and TVshows : "
-    prompt = personalizedPrompt + update.message.text
-    reply_message = hkbu_chatgpt.submit(prompt)
+    reply_message = hkbu_chatgpt.submit(update.message.text)
     logging.info("Update: " + str(update))
     logging.info("context: " + str(context))
     context.bot.send_message(chat_id=update.effective_chat.id, text=reply_message)
@@ -28,7 +24,12 @@ def equiped_chatgpt(update: Update, context: CallbackContext) -> None:
 # Instantiate HKBU_ChatGPT
 hkbu_chatgpt = HKBU_ChatGPT()
 
-r=redis.Redis(host=aws_params.REDIS_HOST, port=int(aws_params.REDIS_PORT), password=aws_params.REDIS_PASSWORD)
+# Redis Configuration, PLEASE CHANGE IT TO YOUR OWN REDIS CONFIGURATION @XU
+REDIS_HOST = 'TvshowsChatbot.redis.cache.windows.net'
+REDIS_PORT = 6380
+REDIS_PASSWORD = 'UYe9jTpqIpZI1CGUNZUFcSQOE4Vs8Gh8HAzCaEKqR4o='
+
+r=redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD)
 
 # Initial Logging Configuration
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
@@ -42,7 +43,7 @@ def back_to_main_keyboard():
 
 def start(update: Update, context: CallbackContext) -> None:
     welcome_text = "Welcome to the Netflix Recommendation Bot. Here you can get recommendations based on Category or Mood, and view your history."
-
+   
     buttons = [
         [InlineKeyboardButton("Category", callback_data='category')],
         [InlineKeyboardButton("Mode", callback_data='mode')],
@@ -103,15 +104,12 @@ def update_history(user_id, message):
     r.ltrim(user_id, 0, 4)  # 只保留最近的5条记录
 
 def get_history(user_id):
-    # Fetch the entire history
-    full_history = [f"{idx + 1}. {item.decode('utf-8')}" for idx, item in enumerate(r.lrange(user_id, 0, -1))]
-    # Get the last part of the history (e.g., last 5 items)
-    last_part_history = full_history[-5:]
-    return '\n'.join(last_part_history)
-
+    return '\n'.join([f"{idx + 1}. {item.decode('utf-8')}" for idx, item in enumerate(r.lrange(user_id, 0, -1))])
 
 def main():
-    token = aws_params.TG_ACCESS_TOKEN
+    config = configparser.ConfigParser()
+    config.read('config.ini')
+    token = config['TELEGRAM']['ACCESS_TOKEN']
 
     updater = Updater(token)
     dispatcher = updater.dispatcher
@@ -132,22 +130,13 @@ def equiped_chatgpt(update, context):
     response = chatgpt.submit(message)
     context.bot.send_message(chat_id=update.effective_chat.id, text=response)
 
-def main():
-    # Initialize the Updater
-    updater = Updater(token=aws_params.TG_ACCESS_TOKEN, use_context=True)
+global chatgpt
+chatgpt = HKBU_ChatGPT()
+chatgpt_handler = MessageHandler(Filters.text & (~Filters.command), equiped_chatgpt)
+dispatcher_with_send.add_handler(chatgpt_handler)
 
-    # Get the dispatcher
-    dispatcher = updater.dispatcher
-
-    # Add handlers
-    dispatcher.add_handler(CommandHandler("start", start))
-    dispatcher.add_handler(CommandHandler("help", help_command))
-    dispatcher.add_handler(CallbackQueryHandler(button))
-    dispatcher.add_handler(MessageHandler(Filters.text & (~Filters.command), equiped_chatgpt))
-
-    # Start the bot
-    updater.start_polling()
-    updater.idle()
 
 if __name__ == "__main__":
-    main()
+    updater = Updater('7189373291:AAGT8N3ibcGZCxsbdCyOMl9IgkPFgiv3vxE')
+    dispatcher = updater.dispatcher
+    main(dispatcher)
