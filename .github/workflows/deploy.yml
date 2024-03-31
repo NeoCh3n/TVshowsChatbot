@@ -13,6 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      # Debugging: Print out the values of AWS credentials
+      - name: Debug AWS Credentials
+        run: |
+          echo "AWS Access Key ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
+          echo "AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
         with:
@@ -23,3 +29,7 @@ jobs:
       - name: Sync files to Lightsail bucket
         run: aws s3 sync . s3://your-lightsail-bucket/
 
+
+
+
+        
