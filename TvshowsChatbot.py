@@ -29,7 +29,7 @@ REDIS_HOST = 'TvshowsChatbot.redis.cache.windows.net'
 REDIS_PORT = 6379    # SSL PORT:6380,NON-SSLPORT:6379
 REDIS_PASSWORD = 'UYe9jTpqIpZI1CGUNZUFcSQOE4Vs8Gh8HAzCaEKqR4o='
 
-r=redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD)
+r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, ssl=False)
 
 # Initial Logging Configuration
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
