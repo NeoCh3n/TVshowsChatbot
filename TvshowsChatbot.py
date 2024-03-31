@@ -28,16 +28,7 @@ def equiped_chatgpt(update: Update, context: CallbackContext) -> None:
 # Instantiate HKBU_ChatGPT
 hkbu_chatgpt = HKBU_ChatGPT()
 
-<<<<<<< HEAD
 r=redis.Redis(host=aws_params.REDIS_HOST, port=int(aws_params.REDIS_PORT), password=aws_params.REDIS_PASSWORD)
-=======
-# Redis Configuration, PLEASE CHANGE IT TO YOUR OWN REDIS CONFIGURATION @XU
-REDIS_HOST = 'TvshowsChatbot.redis.cache.windows.net'
-REDIS_PORT = 6379    # SSL PORT:6380,NON-SSLPORT:6379
-REDIS_PASSWORD = 'UYe9jTpqIpZI1CGUNZUFcSQOE4Vs8Gh8HAzCaEKqR4o='
-
-r = redis.Redis(host=REDIS_HOST, port=REDIS_PORT, password=REDIS_PASSWORD, ssl=False)
->>>>>>> 35ceff97431ee5f3c31f6dd8aabe2cee1986b417
 
 # Initial Logging Configuration
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s', level=logging.INFO)
