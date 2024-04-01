@@ -16,20 +16,16 @@ jobs:
       # Debugging: Print out the values of AWS credentials
       - name: Debug AWS Credentials
         run: |
-          echo "AWS Access Key ID: ${{ secrets.AWS_ACCESS_KEY_ID }}"
-          echo "AWS Secret Access Key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}"
+          echo "AWS Access Key ID: ${{ secrets.AWS_BUCKET_ACCESS_KEY_ID }}"
+          echo "AWS Secret Access Key: ${{ secrets.AWS_BUCKET_ACCESS_KEY }}"
 
       - name: Set up AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ap-northeast-1
+          aws-access-key-id: ${{ secrets.AWS_BUCKET_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_BUCKET_ACCESS_KEY }}
+          aws-region: ap-northeast-1 
+
 
       - name: Sync files to Lightsail bucket
         run: aws s3 sync . s3://bucket-f8ky00
-
-
-
-
-        
