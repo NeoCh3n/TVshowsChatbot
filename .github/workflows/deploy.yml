@@ -28,4 +28,4 @@ jobs:
 
 
       - name: Sync files to Lightsail bucket
-        run: aws s3 sync . s3://bucket-f8ky00
+        run: aws s3 sync . s3://bucket-f8ky00 --exclude '.git/*' --exclude '.github/*' --exclude '.ipynb_checkpoints/*' --exclude '__pycache__/*' --exclude '.gitignore' --exclude 'config.ini' --exclude 'Dockerfile'
